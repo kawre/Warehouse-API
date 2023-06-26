@@ -3,10 +3,12 @@ package com.example.magazyn.Entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,11 +20,12 @@ public class Driver
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "person_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "person_id", nullable = false)
+    @JsonBackReference
     private Person person;
 
     @ManyToOne
+    @JoinColumn(name = "supplier_id", nullable = false)
     @JsonBackReference
-    @JoinColumn(name = "supplier_id")
     private Supplier supplier;
 }

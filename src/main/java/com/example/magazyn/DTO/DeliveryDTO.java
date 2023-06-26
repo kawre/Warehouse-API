@@ -1,3 +1,10 @@
 package com.example.magazyn.DTO;
 
-public record DeliveryDTO(String date, Long storageId) {}
+import java.sql.Date;
+import java.util.List;
+
+public record DeliveryDTO(
+        Long id,
+        Date date,
+        List<ProductDeliveryDTO> products
+) {}

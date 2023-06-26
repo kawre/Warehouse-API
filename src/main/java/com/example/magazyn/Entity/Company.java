@@ -2,10 +2,12 @@ package com.example.magazyn.Entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,10 +23,4 @@ public class Company
     private String name;
 
     private String vatin;
-
-    @OneToOne(mappedBy = "company", fetch = FetchType.LAZY)
-    private Consumer consumer;
-
-    @OneToOne(mappedBy = "company", fetch = FetchType.LAZY)
-    private Supplier supplier;
 }

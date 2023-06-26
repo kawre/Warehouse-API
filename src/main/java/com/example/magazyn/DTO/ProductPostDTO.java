@@ -1,6 +1,6 @@
 package com.example.magazyn.DTO;
 
-public record ProductDTO(
-        Long id,
+public record ProductPostDTO(
+        Float price,
         String name
 ) {}

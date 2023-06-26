@@ -1,11 +1,15 @@
 package com.example.magazyn.Controller;
 
-import com.example.magazyn.DTO.ProductDTO;
+import com.example.magazyn.DTO.ProductPostDTO;
 import com.example.magazyn.Entity.Product;
 import com.example.magazyn.Repository.ProductRepository;
+import jakarta.websocket.server.PathParam;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
 @RequestMapping("/product")
@@ -19,7 +23,7 @@ public class ProductController
     }
 
     @PostMapping("/")
-    public Product addProduct(@RequestBody ProductDTO body)
+    public Product addProduct(@RequestBody ProductPostDTO body)
     {
         Product product = new Product();
         product.setName(body.name());
@@ -34,11 +38,13 @@ public class ProductController
         return this.repository.findAll();
     }
 
-    @GetMapping("/consumer/{consumerId}")
-    public List<Product> getAllProductsBoughtByConsumer(@PathVariable Long consumerId)
+    @PostMapping("/{productId}")
+    public Product changeProductPrice(@PathParam("price") Float price, @PathVariable Long productId)
     {
-        List<Product> products = this.repository.getAllProductsBoughtByCustomer(consumerId);
-        System.out.println(products);
-        return products;
+        Product product = this.repository.findById(productId)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Product not found"));
+
+        product.setPrice(price);
+        return this.repository.save(product);
     }
 }

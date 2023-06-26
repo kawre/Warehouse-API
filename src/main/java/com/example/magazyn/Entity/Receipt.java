@@ -29,14 +29,14 @@ public class Receipt
     @JsonManagedReference
     private List<ReceiptProduct> receiptProducts;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
     @OneToOne(mappedBy = "receipt")
     private Invoice invoice;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "storage_id")
     private Storage storage;
 

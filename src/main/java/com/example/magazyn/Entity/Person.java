@@ -10,9 +10,9 @@ import java.sql.Date;
 
 @Setter
 @Getter
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 @Table(name = "person")
 public class Person
 {
@@ -27,10 +27,4 @@ public class Person
     private String surname;
 
     private Date birthday;
-
-    @OneToOne(mappedBy = "person", fetch = FetchType.LAZY)
-    private Driver driver;
-
-    @OneToOne(mappedBy = "person", fetch = FetchType.LAZY)
-    private Employee employee;
 }

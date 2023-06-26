@@ -24,6 +24,12 @@ public class ReceiptController
         this.consumerRepository = consumerRepository;
     }
 
+    @GetMapping("/")
+    public List<Receipt> getAllReceipts()
+    {
+        return this.repository.findAll();
+    }
+
     @GetMapping("/{receiptId}")
     public Receipt getReceiptById(@PathVariable Long receiptId)
     {

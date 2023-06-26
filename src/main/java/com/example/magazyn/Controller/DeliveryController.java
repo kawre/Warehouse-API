@@ -1,64 +1,90 @@
 package com.example.magazyn.Controller;
 
 import com.example.magazyn.DTO.DeliveryDTO;
-import com.example.magazyn.DTO.ProductDeliveryDTO;
-import com.example.magazyn.Entity.Delivery;
-import com.example.magazyn.Entity.Product;
-import com.example.magazyn.Entity.ProductDelivery;
-import com.example.magazyn.Entity.Storage;
-import com.example.magazyn.Repository.DeliveryRepository;
-import com.example.magazyn.Repository.ProductDeliveryRepository;
-import com.example.magazyn.Repository.ProductRepository;
-import com.example.magazyn.Repository.StorageRepository;
+import com.example.magazyn.DTO.DeliveryPostDTO;
+import com.example.magazyn.DTO.ProductDeliveryPostDTO;
+import com.example.magazyn.Entity.*;
+import com.example.magazyn.Mappers.DeliveryMapper;
+import com.example.magazyn.Repository.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
-@RequestMapping("/delivery")
+@RequestMapping("/storage/{storageId}/deliveries")
 public class DeliveryController
 {
-    private final DeliveryRepository repository;
+    private final DeliveryRepository deliveryRepository;
     private final StorageRepository storageRepository;
     private final ProductDeliveryRepository productDeliveryRepository;
     private final ProductRepository productRepository;
+    private final DriverRepository driverRepository;
+    private final EmployeeRepository employeeRepository;
 
-    public DeliveryController(DeliveryRepository repository, StorageRepository storageRepository, ProductDeliveryRepository productDeliveryRepository, ProductRepository productRepository)
+    public DeliveryController(DeliveryRepository deliveryRepository, StorageRepository storageRepository, ProductDeliveryRepository productDeliveryRepository, ProductRepository productRepository, DriverRepository driverRepository, EmployeeRepository employeeRepository)
     {
-        this.repository = repository;
+        this.deliveryRepository = deliveryRepository;
         this.storageRepository = storageRepository;
         this.productDeliveryRepository = productDeliveryRepository;
         this.productRepository = productRepository;
+        this.driverRepository = driverRepository;
+        this.employeeRepository = employeeRepository;
+    }
+
+    @GetMapping("/")
+    public List<DeliveryDTO> getAllDeliveries(@PathVariable Long storageId)
+    {
+        return this.deliveryRepository.findAllByStorageId(storageId)
+                .stream()
+                .map(DeliveryMapper.instance::toDTO)
+                .collect(Collectors.toList());
     }
 
     @PostMapping("/")
-    public Delivery addDelivery(@RequestBody DeliveryDTO body)
+    public Delivery addDelivery(@RequestBody DeliveryPostDTO body, @PathVariable Long storageId)
     {
-        Storage storage = this.storageRepository.findById(body.storageId())
-                .orElseThrow(() -> new IllegalArgumentException("Storage does not exists"));
+        Storage storage = this.storageRepository.findById(storageId)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Storage not found"));
+
+        Driver driver = this.driverRepository.findById(body.driverId())
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Driver not found"));
+
+        Employee employee = this.employeeRepository.findById(body.employeeId())
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Employee not found"));
 
         Delivery delivery = new Delivery();
         delivery.setStorage(storage);
-        delivery.setDate(Date.valueOf(body.date()));
+        delivery.setDriver(driver);
+        delivery.setEmployee(employee);
+        delivery.setDate(Date.valueOf(LocalDate.now()));
 
-        return this.repository.save(delivery);
+        return this.deliveryRepository.save(delivery);
     }
 
-    @GetMapping("/{id}")
-    public Delivery getDeliveryById(@PathVariable Long id)
+    @GetMapping("/{deliveryId}")
+    public DeliveryDTO getDeliveryById(@PathVariable Long deliveryId, @PathVariable Long storageId)
     {
-        return this.repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid Delivery ID"));
+        Delivery delivery = this.deliveryRepository.findByIdAndStorageId(deliveryId, storageId)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Delivery not found"));
+
+        return DeliveryMapper.instance.toDTO(delivery);
     }
 
     @PostMapping("/{deliveryId}")
-    public ProductDelivery addProductDelivery(@PathVariable Long deliveryId, @RequestBody ProductDeliveryDTO body)
+    public ProductDelivery addProductDelivery(
+            @PathVariable Long deliveryId, @RequestBody ProductDeliveryPostDTO body, @PathVariable Long storageId)
     {
-        Delivery delivery = this.repository.findById(deliveryId)
-                .orElseThrow(() -> new IllegalArgumentException("Delivery not found"));
+        Delivery delivery = this.deliveryRepository.findByIdAndStorageId(deliveryId, storageId)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Delivery not found"));
 
         Product product = this.productRepository.findById(body.productId())
-                .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Product not in the database"));
 
         ProductDelivery productDelivery = new ProductDelivery();
         productDelivery.setDelivery(delivery);
@@ -67,17 +93,5 @@ public class DeliveryController
         productDelivery.setProduct(product);
 
         return this.productDeliveryRepository.save(productDelivery);
-    }
-
-    @GetMapping("/{id}/products")
-    public Delivery getAllProductDelivery(@PathVariable Long id)
-    {
-        return this.repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid Delivery ID"));
-    }
-
-    @GetMapping("/product/{productId}")
-    public List<Delivery> getAllDeliveriesWithProductId(@PathVariable Long productId)
-    {
-        return this.repository.findAllDeliveriesWithProductId(productId);
     }
 }
