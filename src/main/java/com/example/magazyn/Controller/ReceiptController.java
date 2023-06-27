@@ -1,9 +1,9 @@
 package com.example.magazyn.Controller;
 
-import com.example.magazyn.Entity.Consumer;
-import com.example.magazyn.Entity.Receipt;
-import com.example.magazyn.Repository.ConsumerRepository;
-import com.example.magazyn.Repository.ReceiptRepository;
+import com.example.magazyn.DTO.ReceiptDTO;
+import com.example.magazyn.Mappers.ReceiptMapper;
+import com.example.magazyn.Service.impl.ReceiptServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,36 +12,23 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/receipt")
+@RequestMapping("/storage/{storageId}/receipts")
+@RequiredArgsConstructor
 public class ReceiptController
 {
-    private final ReceiptRepository repository;
-    private final ConsumerRepository consumerRepository;
-
-    public ReceiptController(ReceiptRepository repository, ConsumerRepository consumerRepository)
-    {
-        this.repository = repository;
-        this.consumerRepository = consumerRepository;
-    }
+    private final ReceiptServiceImpl receiptService;
 
     @GetMapping("/")
-    public List<Receipt> getAllReceipts()
+    public List<ReceiptDTO> getAllReceiptsByStorageId(@PathVariable Long storageId)
     {
-        return this.repository.findAll();
+        return ReceiptMapper.instance
+                .toDtoList(this.receiptService.findReceiptsByStorageId(storageId));
     }
 
     @GetMapping("/{receiptId}")
-    public Receipt getReceiptById(@PathVariable Long receiptId)
+    public ReceiptDTO getReceiptById(@PathVariable Long receiptId)
     {
-        return this.repository.findById(receiptId).orElseThrow(() -> new IllegalArgumentException("Receipt not found"));
-    }
-
-    @GetMapping("/consumer/{consumerId}")
-    public List<Receipt> getConsumerReceipts(@PathVariable Long consumerId)
-    {
-        Consumer consumer = this.consumerRepository.findById(consumerId)
-                .orElseThrow(() -> new IllegalArgumentException("Consumer not found"));
-
-        return consumer.getReceipts();
+        return ReceiptMapper.instance
+                .toDto(this.receiptService.findById(receiptId));
     }
 }

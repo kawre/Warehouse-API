@@ -1,7 +1,8 @@
 package com.example.magazyn.DTO;
 
-public record ProductDTO(
+public record CompanyDTO(
         Long id,
+        String phoneNumber,
         String name,
-        Float price
+        String vatin
 ) {}

@@ -15,7 +15,6 @@ import lombok.Setter;
 public class Invoice
 {
     @Id
-    @OneToOne(orphanRemoval = true)
-    @JoinColumn(name = "receipt_id", referencedColumnName = "id")
-    private Receipt receipt;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 }

@@ -33,7 +33,8 @@ public class Receipt
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    @OneToOne(mappedBy = "receipt")
+    @OneToOne
+    @JoinColumn(name = "invoice_id")
     private Invoice invoice;
 
     @ManyToOne(fetch = FetchType.LAZY)
