@@ -12,7 +12,7 @@ $ docker-compose up --build
 
 # Diagram in Polish
 
-![Diagram](https://github.com/kawre/Warehouse-API/assets/69250723/6309ba12-f7b5-4826-bfe2-60b0e4f88aad)
+![diagram](https://github.com/kawre/Warehouse-API/assets/69250723/ef4d7978-e6a3-4454-b098-5eec2b6a108d)
 
 # Postman Collections
 
