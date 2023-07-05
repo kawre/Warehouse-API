@@ -1,0 +1,60 @@
+{
+	"info": {
+		"_postman_id": "56ec9fb8-203a-472a-8935-9ace1477fd70",
+		"name": "Product",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16075397",
+		"_collection_link": "https://gold-satellite-347089.postman.co/workspace/Magazyn~e4e46456-a0af-4ee0-84c5-9ca64b4ffb69/collection/16075397-56ec9fb8-203a-472a-8935-9ace1477fd70?action=share&creator=16075397&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Add Product",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{$randomProductName}}\",\r\n    \"price\": \"{{$randomPrice}}\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/product/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"product",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/product/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"product",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

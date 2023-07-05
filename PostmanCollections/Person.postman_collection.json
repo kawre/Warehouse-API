@@ -1,0 +1,100 @@
+{
+	"info": {
+		"_postman_id": "02164d8a-da75-412d-829f-34df52dedb40",
+		"name": "Person",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16075397",
+		"_collection_link": "https://gold-satellite-347089.postman.co/workspace/Magazyn~e4e46456-a0af-4ee0-84c5-9ca64b4ffb69/collection/16075397-02164d8a-da75-412d-829f-34df52dedb40?action=share&creator=16075397&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Add Person",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var moment = require(\"moment\");\r",
+							"\r",
+							"// Get the current random date value\r",
+							"var randomDate = pm.variables.replaceIn(\"{{$randomDatePast}}\");\r",
+							"\r",
+							"// Format the random date using moment.js\r",
+							"var formattedDate = moment(randomDate).format(\"YYYY-MM-DD\");\r",
+							"\r",
+							"// Set the formatted date as a new variable\r",
+							"pm.variables.set(\"randomBirthday\", formattedDate);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{$randomFirstName}}\",\r\n    \"surname\": \"{{$randomLastName}}\",\r\n    \"pesel\": \"{{$randomUUID}}\",\r\n    \"birthDate\": \"{{randomBirthday}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/person/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"person",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All People",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/person/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"person",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Person",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/person/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"person",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

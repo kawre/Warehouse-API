@@ -1,0 +1,127 @@
+{
+	"info": {
+		"_postman_id": "c18142dd-696d-4fce-b4eb-83ba58bfa64f",
+		"name": "Deliveries",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16075397",
+		"_collection_link": "https://gold-satellite-347089.postman.co/workspace/Magazyn~e4e46456-a0af-4ee0-84c5-9ca64b4ffb69/collection/16075397-c18142dd-696d-4fce-b4eb-83ba58bfa64f?action=share&creator=16075397&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "New Delivery",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var lodash = require(\"lodash\");\r",
+							"\r",
+							"pm.environment.set(\"randomQuantity\", _.random(1, 50))"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"employeeId\": 1,\r\n    \"driverId\": 1,\r\n    \"products\": [\r\n        {\r\n            \"quantity\": {{$randomInt}},\r\n            \"productId\": 2\r\n        },\r\n        {\r\n            \"quantity\": {{$randomInt}},\r\n            \"productId\": 1\r\n        },\r\n        {\r\n            \"quantity\": {{$randomInt}},\r\n            \"productId\": 3\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/storage/1/deliveries/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"storage",
+						"1",
+						"deliveries",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Deliveries",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/storage/1/deliveries/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"storage",
+						"1",
+						"deliveries",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Delivery By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/storage/1/deliveries/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"storage",
+						"1",
+						"deliveries",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find All Deliveries Containing A Product Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/delivery/product/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"delivery",
+						"product",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

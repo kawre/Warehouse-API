@@ -1,0 +1,223 @@
+{
+	"info": {
+		"_postman_id": "02269fba-42ad-4e93-81ce-9d0f876ee459",
+		"name": "Storages",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16075397",
+		"_collection_link": "https://gold-satellite-347089.postman.co/workspace/Magazyn~e4e46456-a0af-4ee0-84c5-9ca64b4ffb69/collection/16075397-02269fba-42ad-4e93-81ce-9d0f876ee459?action=share&creator=16075397&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "New Storage",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"address\": \"{{$randomStreetAddress}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/storage/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"storage",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Storages",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/storage/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"storage",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Storage Deliveries",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/storage/1/deliveries/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"storage",
+						"1",
+						"deliveries",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Storage Employees",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/storage/1/employees",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"storage",
+						"1",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Hire Person",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/storage/{{storageId}}/employees/hire/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"storage",
+						"{{storageId}}",
+						"employees",
+						"hire",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fire Person",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"employeeId\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/storage/1/employees/fire",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"storage",
+						"1",
+						"employees",
+						"fire"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Storage Employee",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/storage/1/employees/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"storage",
+						"1",
+						"employees",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Warehouse Stock",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/storage/1/stock/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"storage",
+						"1",
+						"stock",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Warehouse Product Stock",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/storage/1/stock/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"storage",
+						"1",
+						"stock",
+						"3"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
